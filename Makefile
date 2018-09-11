@@ -2,6 +2,7 @@ OBJ = main.o projectile.o asteroid.o body.o world.o input.o ship.o explosion.o s
 BIN = rymdtrish
 LIBS = -lGL -lGLU -lglut
 
+all: $(BIN)
 clean:
 	rm -f $(OBJ)
 

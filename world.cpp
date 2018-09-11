@@ -16,11 +16,16 @@ void World::init()
   objects.push_back(new Asteroid(-2, 0, PI, 1, 2, 2*PI));
   //objects.push_back(new Projectile(-4, -3, -PI/2, 3, 0, 0));
   
+  
   Ship *s = new Ship();
   s->setPlayer();
   objects.push_back(s); 
+
+  s = new Ship(1, 2, 0);
+  s->setPlayer();
+  objects.push_back(s); 
   objects.push_back(new Ship(10,1,1));
-  objects.push_back(new Ship(10,1,1));
+  objects.push_back(new Ship(1,1,1));
   objects.push_back(new Ship(-10,20,1));
 }
 

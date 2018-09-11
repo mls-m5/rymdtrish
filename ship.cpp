@@ -87,7 +87,7 @@ void Ship::accelerate(double ax, double ay){
 void Ship::fire(int i){
   //Add a projectile
   Projectile *p = 
-    new Projectile(x,y,angle, -sin(angle)*10+ vx, cos(angle) *10 + vy,0);
+    new Projectile(x,y,angle, -sin(angle)*30+ vx, cos(angle) *30 + vy,0);
   p->setDuration(1);
   p->setOwner(this);
   World::add(p);
