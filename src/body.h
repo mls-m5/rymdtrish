@@ -6,6 +6,7 @@
 class Body
 {
  public:
+  virtual ~Body() {}
   Body();
   Body(double x, double y, double angle);
   Body(double x, double y, double angle,

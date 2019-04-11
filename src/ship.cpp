@@ -25,6 +25,8 @@ double getAngle(double x, double y, double a){
 		angle -= pi * 2.;
 		goto redo2;
 	}
+
+    return angle;
 }
 
 void Ship::update(double dt){
@@ -103,8 +105,8 @@ void Ship::AI(double dt){
 	}
 	
 	accelerate(0,dt * 4.);
-	vx / (1. + dt * 3.);
-	vy / (1. + dt * 3.);
+	//vx / (1. + dt * 3.);
+	//vy / (1. + dt * 3.);
 }
 
 void Ship::setPlayer(bool player){

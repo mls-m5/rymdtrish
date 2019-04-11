@@ -1,0 +1,7 @@
+# Matmake file
+# download matmake from https://github.com/mls-m5/matmake
+
+main_debug.libs = -lGL -lGLU -lglut
+main_debug.flags += -std=c++11 -W -Wall -Wno-unused-parameter -Wno-sign-compare -Werror
+main_debug.src = src/*.cpp
+main_debug.exe = rymdtrish

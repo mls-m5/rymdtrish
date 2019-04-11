@@ -1,4 +1,4 @@
-OBJ = main.o projectile.o asteroid.o body.o world.o input.o ship.o explosion.o spark.o
+OBJ = src/main.o src/projectile.o src/asteroid.o src/body.o src/world.o src/input.o src/ship.o src/explosion.o src/spark.o
 BIN = rymdtrish
 LIBS = -lGL -lGLU -lglut
 

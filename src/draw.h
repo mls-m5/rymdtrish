@@ -53,7 +53,7 @@ class Draw{
     
     glColor3d(r,g,b);
 		
-		float ang;
+		//float ang;
 		
 		for (int i = 0; i < 5; i ++){
 			a = float(i) * 2. * pi / 5.;
