@@ -3,8 +3,7 @@
 #include "draw.h"
 #include "explosion.h"
 #include "spark.h"
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
 
 
 void Asteroid::draw() const

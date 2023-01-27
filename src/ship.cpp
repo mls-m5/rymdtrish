@@ -5,8 +5,7 @@
 #include "world.h"
 #include "projectile.h"
 #include "explosion.h"
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
 
 
 //A helper function that get the difference of a angle

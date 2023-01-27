@@ -1,8 +1,8 @@
 #ifndef _draw_h_
 #define _draw_h_
 #include <GL/gl.h>
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+//#include <stdlib.h>
 #define pi 3.14159265
 
 
@@ -34,7 +34,7 @@ class Draw{
       glVertex3i(rand() % 200 -100, rand() %200 -100, rand() %9 +1);
     }
     glEnd();
-    
+
     //Återställer slump
     srand(rnd);
   }
@@ -48,18 +48,18 @@ class Draw{
   static void drawAsteroid(PARA){
     glPushMatrix();
     transform(x,y,a,scale);
-    
+
     glBegin(GL_TRIANGLE_FAN);
-    
+
     glColor3d(r,g,b);
-		
-		//float ang;
-		
-		for (int i = 0; i < 5; i ++){
-			a = float(i) * 2. * pi / 5.;
-			glVertex2d(sin(a), cos(a));
-		}
-		
+
+        //float ang;
+
+        for (int i = 0; i < 5; i ++){
+            a = float(i) * 2. * pi / 5.;
+            glVertex2d(sin(a), cos(a));
+        }
+
     //glVertex2d(0,-1);
     //glVertex2d(1,0);
     //glVertex2d(0,1);
@@ -72,9 +72,9 @@ class Draw{
   static void drawShip(PARA){
     glPushMatrix();
     transform(x,y,a, scale);
-    
+
     glBegin(GL_TRIANGLE_FAN);
-    
+
     glColor3d(r,g,b);
 
     glVertex2d(0,1);
@@ -88,9 +88,9 @@ class Draw{
   static void drawProjectile(PARA){
     glPushMatrix();
     transform(x,y,a, scale);
-    
+
     glBegin(GL_TRIANGLE_FAN);
-    
+
     glColor3d(r,g,b);
 
     glVertex2d(0,.2);
@@ -102,19 +102,19 @@ class Draw{
     glPopMatrix();
   }
 
-	static void drawSpark(PARA){
-		glPushMatrix();
-		
-		transform(x,y,a,scale);
-		
-		glColor3d(r,g,b);
-		glPointSize(2.);
-		glBegin(GL_POINTS);
-		glVertex2d(0,0);
-		glEnd();
-		
-		glPopMatrix();
-	}
+    static void drawSpark(PARA){
+        glPushMatrix();
+
+        transform(x,y,a,scale);
+
+        glColor3d(r,g,b);
+        glPointSize(2.);
+        glBegin(GL_POINTS);
+        glVertex2d(0,0);
+        glEnd();
+
+        glPopMatrix();
+    }
 };
 
 #endif
