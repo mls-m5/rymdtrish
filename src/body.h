@@ -13,6 +13,12 @@ public:
          double vx = 0,
          double vy = 0,
          double vangle = 0);
+
+    Body(const Body &) = default;
+    Body(Body &&) = delete;
+    Body &operator=(const Body &) = default;
+    Body &operator=(Body &&) = delete;
+
     virtual void update(double dt);
     virtual void draw() const {};
     virtual void kill();

@@ -79,7 +79,6 @@ void Ship::accelerate(double ax, double ay) {
 }
 
 void Ship::fire(int i) {
-    // Add a projectile
     Projectile *p = World::create<Projectile>(
         x, y, angle, -sin(angle) * 30 + vx, cos(angle) * 30 + vy, 0);
     p->setDuration(1);
@@ -87,8 +86,6 @@ void Ship::fire(int i) {
 }
 
 void Ship::AI(double dt) {
-    // vangle += ((rand() % 100) / 1000. - .05) / 2.;
-
     angle += getAngle(x - World::playerX, y - World::playerY, angle) * dt +
              ((rand() % 100) / 1000. - .05) / 2.;
 

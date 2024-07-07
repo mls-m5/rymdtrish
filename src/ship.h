@@ -10,9 +10,8 @@ public:
          double angle = 0,
          double vx = 0,
          double vy = 0,
-         double vangle = 0) {
-        Body(x, y, angle, vx, vy, vangle);
-    };
+         double vangle = 0)
+        : Body(x, y, angle, vx, vy, vangle){};
     void update(double dt) override;
     void draw() const override;
     void kill() override;
