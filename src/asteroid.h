@@ -1,5 +1,4 @@
-#ifndef _asteroid_h_
-#define _asteroid_h_
+#pragma once
 
 #include "body.h"
 
@@ -18,8 +17,6 @@ public:
         : Body(x, y, angle, vx, vy, vangle) {
         size = 2;
     }
-    void draw() const;
-    void kill();
+    void draw() const override;
+    void kill() override;
 };
-
-#endif

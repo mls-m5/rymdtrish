@@ -12,16 +12,15 @@ void Asteroid::draw() const {
 void Asteroid::kill() {
     // Calculations to set speed of new objects
     // And to verify that there will be any new asteroids
-    const double minSize = .3, killScale = 1 / 1.5;
-    double sx, sy;
+    const double minSize = .3;
+    const double killScale = 1 / 1.5;
 
     if (size * killScale < minSize) {
         World::add(new Explosion(x, y, .3));
     }
     else {
-        // sx = vy, sy = -vx;
-        sx = (rand() % 100) / 50. - 1.;
-        sy = (rand() % 100) / 50. - 1.;
+        auto sx = (rand() % 100) / 50. - 1.;
+        auto sy = (rand() % 100) / 50. - 1.;
         Asteroid *a1, *a2;
         a1 = new Asteroid(x, y, angle, sx, sy, vangle);
         a1->setSize(size * killScale);
@@ -31,17 +30,13 @@ void Asteroid::kill() {
         World::add(a2);
     }
 
-    Spark *s;
-    float a, amp;
     for (int i = 0; i < 100; i++) {
-        a = (rand() % 10000) / 10000. * pi * 2.;
-        amp = pow((rand() % 10000) / 1000. - 5., 1.2);
-        // sx = sin(pi * float(i) * 2. / 10.) * 10.;
-        // sy = cos(pi * float(i) * 2. / 10.) * 10.;
-        sx = sin(a) * amp;
-        sy = cos(a) * amp;
+        float a = (rand() % 10000) / 10000. * pi * 2.;
+        float amp = pow((rand() % 10000) / 1000. - 5., 1.2);
+        auto sx = sin(a) * amp;
+        auto sy = cos(a) * amp;
 
-        s = new Spark(x, y, sx, sy);
+        auto s = new Spark(x, y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
         World::add(s);
     }

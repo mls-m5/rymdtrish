@@ -4,10 +4,7 @@
 #include <GL/glut.h>
 #include <cstdlib>
 
-#define TIMER_DELAY 20.
-
-//////
-World *world;
+constexpr auto timerDelay = 20.;
 
 void glutDisplay() {
     // Draw::drawAsteroid(0,0,0);  //This is just a test for rendering
@@ -15,7 +12,7 @@ void glutDisplay() {
     glPushMatrix();
     glTranslated(0, 0, -70);
     Draw::drawStars();
-    world->draw();
+    World::draw();
     glPopMatrix();
     glutSwapBuffers();
 }
@@ -48,16 +45,11 @@ void glutSpecialUp(int key, int x, int y) {
 
 // gluts timer function
 void glutTimer(int i) {
-    glutTimerFunc(TIMER_DELAY, glutTimer, 0);
+    glutTimerFunc(timerDelay, glutTimer, 0);
     perspectiveTransformations();
-    world->update(TIMER_DELAY / 1000.);
+    World::update(timerDelay / 1000.);
 
     glutPostRedisplay();
-}
-
-void terminate() {
-    // Det verkar som att det inte bara är onödigt att tömma världen, utan att
-    // det till och med krashar programmet World::terminate();
 }
 
 int main(int argc, char **args) {
@@ -76,19 +68,15 @@ int main(int argc, char **args) {
     glutKeyboardUpFunc(glutKeyboardUp);
     glutSpecialFunc(glutSpecial);
     glutSpecialUpFunc(glutSpecialUp);
-    glutTimerFunc(TIMER_DELAY, glutTimer, 0);
+    glutTimerFunc(timerDelay, glutTimer, 0);
 
-    //Återställer knappar
+    // Återställer knappar
     InputControl::resetKeys();
-
-    // Skapar världen
-    // world = new World;
 
     World::init();
 
-    // Ställer in vad som ska hända när programmet stängs av
-    atexit(terminate);
-
     // Startar huvudloopen
     glutMainLoop();
+
+    World::terminate();
 }
