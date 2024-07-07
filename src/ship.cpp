@@ -12,16 +12,12 @@
 double getAngle(double x, double y, double a) {
     double angle = atan2(x, y) + a;
 
-redo1:
-    if (angle < pi) {
+    while (angle < pi) {
         angle += pi * 2.;
-        goto redo1;
     }
 
-redo2:
-    if (angle > pi) {
+    while (angle > pi) {
         angle -= pi * 2.;
-        goto redo2;
     }
 
     return angle;
@@ -74,9 +70,8 @@ void Ship::draw() const {
 
 // Accelerate the ship relative to the ships location
 void Ship::accelerate(double ax, double ay) {
-    double sx, sy;
-    sx = sin(angle);
-    sy = cos(angle);
+    auto sx = sin(angle);
+    auto sy = cos(angle);
 
     // Apply the acceleration in the proper direction
     vx += sy * ax - sx * ay;
@@ -85,11 +80,10 @@ void Ship::accelerate(double ax, double ay) {
 
 void Ship::fire(int i) {
     // Add a projectile
-    Projectile *p = new Projectile(
+    Projectile *p = World::create<Projectile>(
         x, y, angle, -sin(angle) * 30 + vx, cos(angle) * 30 + vy, 0);
     p->setDuration(1);
     p->setOwner(this);
-    World::add(p);
 }
 
 void Ship::AI(double dt) {
@@ -110,23 +104,17 @@ void Ship::setPlayer(bool player) {
 }
 
 void Ship::kill() {
-    Spark *s;
-    float a, amp;
-    double sx, sy;
     for (int i = 0; i < 100; i++) {
-        a = (rand() % 10000) / 10000. * pi * 2.;
-        amp = pow((rand() % 10000) / 1000. - 5., 1.2);
-        // sx = sin(pi * float(i) * 2. / 10.) * 10.;
-        // sy = cos(pi * float(i) * 2. / 10.) * 10.;
-        sx = sin(a) * amp;
-        sy = cos(a) * amp;
+        double a = (rand() % 10000) / 10000. * pi * 2.;
+        double amp = pow((rand() % 10000) / 1000. - 5., 1.2);
+        double sx = sin(a) * amp;
+        double sy = cos(a) * amp;
 
-        s = new Spark(x, y, sx, sy);
+        auto s = World::create<Spark>(x, y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
-        World::add(s);
     }
 
-    World::add(new Explosion(x, y, 3., .5, .5, 1));
+    World::create<Explosion>(x, y, 3., .5, .5, 1);
 
     this->Body::kill();
 }

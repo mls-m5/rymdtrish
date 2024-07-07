@@ -77,8 +77,9 @@ void World::draw() {
     }
 }
 
-void World::add(Body *b) {
-    objects.push_front(b);
+Body *World::add(std::unique_ptr<Body> b) {
+    objects.push_front(b.release());
+    return objects.front();
 }
 
 void World::remove(Body *b) {

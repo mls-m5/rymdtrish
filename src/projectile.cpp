@@ -18,6 +18,6 @@ void Projectile::update(double dt) {
         // Destroy the own object
         kill();
 
-        World::add(new Explosion(x, y, .3, .5, .5, 1));
+        World::create<Explosion>(x, y, .3, .5, .5, 1);
     }
 }

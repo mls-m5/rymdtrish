@@ -1,9 +1,9 @@
-#ifndef _world_h_
-#define _world_h_
+#pragma once
 
 #include "body.h"
-#include "input.h"
 #include <list>
+#include <memory>
+#include <utility>
 
 using std::list;
 
@@ -13,7 +13,14 @@ public:
     static void terminate();
     static void update(double dt);
     static void draw();
-    static void add(Body *);
+    static Body *add(std::unique_ptr<Body>);
+
+    template <typename T, typename... Args>
+    static T *create(Args &&...args) {
+        return static_cast<T *>(
+            add(std::make_unique<T>(std::forward<Args>(args)...)));
+    }
+
     static void remove(Body *);
 
     static Body *inside(double x, double y, Body *ignore = 0);
@@ -28,5 +35,3 @@ private:
 public:
     static double playerX, playerY, playerVX, playerVY;
 };
-
-#endif
