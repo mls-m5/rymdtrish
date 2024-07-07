@@ -8,9 +8,12 @@ constexpr auto PI = M_PI;
 class Body {
 public:
     virtual ~Body() {}
-    Body();
-    Body(double x, double y, double angle);
-    Body(double x, double y, double angle, double vx, double vy, double vangle);
+    Body(double x = 0,
+         double y = 0,
+         double angle = 0,
+         double vx = 0,
+         double vy = 0,
+         double vangle = 0);
     virtual void update(double dt);
     virtual void draw() const {};
     virtual void kill();

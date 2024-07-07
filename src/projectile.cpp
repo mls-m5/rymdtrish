@@ -8,10 +8,9 @@ void Projectile::draw() const {
 }
 
 void Projectile::update(double dt) {
-    Body *collision;
     this->Body::update(dt);
 
-    collision = World::inside(x, y, owner);
+    auto collision = World::inside(x, y, owner);
     if (collision) {
         // Domages the found object
         collision->hit(10);

@@ -1,7 +1,7 @@
-#ifndef _input_h_
-#define _input_h_
+#pragma once
 
 #include <GL/glut.h>
+#include <array>
 
 // Translaet glut key-constant names to our own independent names
 #define C_KEY(id) KEY_##id = GLUT_KEY_##id
@@ -32,11 +32,11 @@ enum InputKeyNums {
 // En klass för att ta reda på tangentbordstryckningar och dylikt
 class Input {
 protected:
-    static bool keys[256];
+    static std::array<bool, 256> keys;
 
 public:
     static bool key(unsigned char k) {
-        return keys[k];
+        return keys.at(k);
     };
 };
 
@@ -44,14 +44,12 @@ public:
 class InputControl : public Input {
 public:
     static inline void setKey(unsigned char k, bool v) {
-        keys[k] = v;
+        keys.at(k) = v;
     };
     static void resetKeys() {
-        //Återställer alla knappar
+        // Återställer alla knappar
         for (int i = 0; i < 256; i++) {
-            keys[i] = 0;
+            keys.at(i) = 0;
         }
     };
 };
-
-#endif

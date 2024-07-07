@@ -1,7 +1,6 @@
 #include "world.h"
 #include "asteroid.h"
 #include "body.h"
-#include "projectile.h"
 #include "ship.h"
 
 // Create the static variables
@@ -11,20 +10,22 @@ bool World::removeCurrentObject;
 double World::playerX, World::playerY, World::playerVX, World::playerVY;
 
 void World::init() {
-    objects.push_back(new Asteroid(0, 0, 0, 1, 2, 2 * 2 * PI));
-    objects.push_back(new Asteroid(-2, 0, PI, 1, 2, 2 * PI));
-    // objects.push_back(new Projectile(-4, -3, -PI/2, 3, 0, 0));
+    create<Asteroid>(0, 0, 0, 1, 2, 2 * 2 * PI);
+    create<Asteroid>(-2, 0, PI, 1, 2, 2 * PI);
 
-    Ship *s = new Ship();
-    s->setPlayer();
-    objects.push_back(s);
+    {
+        auto s = create<Ship>(0, 0, 0);
+        s->setPlayer();
+        objects.push_back(s);
+    }
 
-    s = new Ship(1, 2, 0);
-    s->setPlayer();
-    objects.push_back(s);
-    objects.push_back(new Ship(10, 1, 1));
-    objects.push_back(new Ship(1, 1, 1));
-    objects.push_back(new Ship(-10, 20, 1));
+    {
+        auto s = create<Ship>(1, 2, 0);
+        s->setPlayer();
+    }
+    create<Ship>(10, 1, 1);
+    create<Ship>(1, 1, 1);
+    create<Ship>(-10, 20, 1);
 }
 
 void World::terminate() {
@@ -36,14 +37,6 @@ void World::terminate() {
 }
 
 void World::update(double dt) {
-
-    // The previous method
-    //  Iterate through all objects in the world and update them
-    // list<Body *>::iterator it;
-    // for (it = objects.begin(); it != objects.end(); ++it) {
-    //   (*it)->update(dt);
-    // }
-
     // Iterate througth all objects
     // This method can handle when some objects tries to remove themselves
     // during update Se World::remove to get a clearer picture

@@ -13,7 +13,6 @@ public:
     static void terminate();
     static void update(double dt);
     static void draw();
-    static Body *add(std::unique_ptr<Body>);
 
     template <typename T, typename... Args>
     static T *create(Args &&...args) {
@@ -28,6 +27,7 @@ public:
     static void setPlayerInfo(double x, double y, double vx = 0, double vy = 0);
 
 private:
+    static Body *add(std::unique_ptr<Body>);
     static list<Body *> objects;
     static list<Body *>::iterator currentObject;
     static bool removeCurrentObject;

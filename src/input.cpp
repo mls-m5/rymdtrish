@@ -1,3 +1,3 @@
 #include "input.h"
 
-bool Input::keys[256];
+std::array<bool, 256> Input::keys;

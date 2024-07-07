@@ -1,6 +1,5 @@
 #include "spark.h"
 #include "draw.h"
-#include "world.h"
 
 void Spark::update(double dt) {
     angle += dt * 2.;
@@ -15,17 +14,9 @@ void Spark::update(double dt) {
     this->Body::update(dt);
 }
 
-Spark::Spark(double x, double y, double vx, double vy) {
-    Body(x, y, 0, vx, vy, 0);
-    this->x = x;
-    this->y = y;
-    this->vx = vx;
-    this->vy = vy;
-    // cout << "x: " << x << endl;
-}
+Spark::Spark(double x, double y, double vx, double vy)
+    : Body(x, y, 0, vx, vy, 0) {}
 
-// Draws the ship
 void Spark::draw() const {
-    // Draw::drawShip(x,y,angle,1,0,1);
     Draw::drawSpark({x, y, angle, r / angle, g / angle, b / angle});
 }

@@ -12,8 +12,9 @@ Explosion::Explosion(
 
 void Explosion::update(double dt) {
     size -= dt;
-    if (size < .01)
+    if (size < .01) {
         this->Body::kill();
+    }
 }
 
 void Explosion::draw() const {

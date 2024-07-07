@@ -1,5 +1,5 @@
-#ifndef _spark_h_
-#define _spark_h_
+#pragma once
+
 #include "body.h"
 
 class Spark : public Body {
@@ -9,8 +9,6 @@ public:
         Body();
     };
     Spark(double x, double y, double vx, double vy);
-    void update(double dt);
-    void draw() const;
+    void update(double dt) override;
+    void draw() const override;
 };
-
-#endif
