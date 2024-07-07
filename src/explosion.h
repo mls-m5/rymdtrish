@@ -1,5 +1,4 @@
-#ifndef _explosion_h_
-#define _explosion_h_
+#pragma once
 
 #include "body.h"
 
@@ -19,5 +18,3 @@ public:
         return 0;
     };
 };
-
-#endif //_explosion_h_

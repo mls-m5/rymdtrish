@@ -1,5 +1,5 @@
-#ifndef _ship_h_
-#define _ship_h_
+#pragma once
+
 #include "body.h"
 
 class Ship : public Body {
@@ -25,5 +25,3 @@ public:
 private:
     bool isPlayer = false;
 };
-
-#endif

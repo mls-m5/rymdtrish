@@ -1,5 +1,4 @@
-#ifndef _body_h_
-#define _body_h_
+#pragma once
 
 #include <cmath>
 
@@ -55,5 +54,3 @@ protected:
     // if less than zero the kill() function is to be called
     double hitPoints;
 };
-
-#endif

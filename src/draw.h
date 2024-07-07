@@ -1,5 +1,5 @@
-#ifndef _draw_h_
-#define _draw_h_
+#pragma once
+
 #include <GL/gl.h>
 #include <cmath>
 constexpr double pi = 3.14159265;
@@ -118,5 +118,3 @@ public:
         glPopMatrix();
     }
 };
-
-#endif
