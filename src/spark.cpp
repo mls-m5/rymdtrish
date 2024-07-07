@@ -14,8 +14,8 @@ void Spark::update(double dt) {
     this->Body::update(dt);
 }
 
-Spark::Spark(double x, double y, double vx, double vy)
-    : Body(x, y, 0, vx, vy, 0) {}
+Spark::Spark(World &world, double x, double y, double vx, double vy)
+    : Body(world, x, y, 0, vx, vy, 0) {}
 
 void Spark::draw() const {
     Draw::drawSpark({_x, _y, _angle, _r / _angle, _g / _angle, _b / _angle});

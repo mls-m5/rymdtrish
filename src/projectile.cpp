@@ -10,11 +10,11 @@ void Projectile::draw() const {
 void Projectile::update(double dt) {
     this->Body::update(dt);
 
-    auto collision = World::inside(x(), y(), owner);
+    auto collision = world().inside(x(), y(), owner);
     if (collision) {
         collision->hit(10);
         kill();
 
-        World::create<Explosion>(_x, _y, .3, .5, .5, 1);
+        world().create<Explosion>(_x, _y, .3, .5, .5, 1);
     }
 }

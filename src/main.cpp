@@ -6,12 +6,16 @@
 
 constexpr auto timerDelay = 20.;
 
+namespace {
+World *world = nullptr;
+}
+
 void glutDisplay() {
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
     glTranslated(0, 0, -70);
     Draw::drawStars();
-    World::draw();
+    world->draw();
     glPopMatrix();
     glutSwapBuffers();
 }
@@ -46,7 +50,7 @@ void glutSpecialUp(int key, int x, int y) {
 void glutTimer(int i) {
     glutTimerFunc(timerDelay, glutTimer, 0);
     perspectiveTransformations();
-    World::update(timerDelay / 1000.);
+    world->update(timerDelay / 1000.);
 
     glutPostRedisplay();
 }
@@ -72,10 +76,11 @@ int main(int argc, char **args) {
     // Återställer knappar
     InputControl::resetKeys();
 
-    World::init();
+    auto world = World{};
+    ::world = &world;
+
+    world.init();
 
     // Startar huvudloopen
     glutMainLoop();
-
-    World::terminate();
 }

@@ -1,9 +1,15 @@
 #include "body.h"
 #include "world.h"
 
-Body::Body(
-    double x, double y, double angle, double vx, double vy, double vangle)
-    : _x(x)
+Body::Body(World &world,
+           double x,
+           double y,
+           double angle,
+           double vx,
+           double vy,
+           double vangle)
+    : _world{&world}
+    , _x(x)
     , _y(y)
     , _angle(angle)
     , _vy(vy)
@@ -35,7 +41,7 @@ void Body::update(double dt) {
 }
 
 void Body::kill() {
-    World::remove(this);
+    world().remove(this);
 }
 
 bool Body::inside(double px, double py) const {
@@ -133,6 +139,10 @@ double Body::g() const {
 
 void Body::g(double nG) {
     _g = nG;
+}
+
+World &Body::world() const {
+    return *_world;
 }
 
 double Body::size() const {

@@ -9,29 +9,29 @@ using std::list;
 
 class World {
 public:
-    static void init();
-    static void terminate();
-    static void update(double dt);
-    static void draw();
+    void init();
+    void terminate();
+    void update(double dt);
+    void draw();
 
     template <typename T, typename... Args>
-    static T *create(Args &&...args) {
+    T *create(Args &&...args) {
         return static_cast<T *>(
-            add(std::make_unique<T>(std::forward<Args>(args)...)));
+            add(std::make_unique<T>(*this, std::forward<Args>(args)...)));
     }
 
-    static void remove(Body *);
+    void remove(Body *);
 
-    static Body *inside(double x, double y, Body *ignore = 0);
+    Body *inside(double x, double y, Body *ignore = 0);
 
-    static void setPlayerInfo(double x, double y, double vx = 0, double vy = 0);
+    void setPlayerInfo(double x, double y, double vx = 0, double vy = 0);
 
 private:
-    static Body *add(std::unique_ptr<Body>);
-    static list<Body *> objects;
-    static list<Body *>::iterator currentObject;
-    static bool removeCurrentObject;
+    Body *add(std::unique_ptr<Body>);
+    list<Body *> objects; // TODO: Convert to uniqueptr
+    list<Body *>::iterator currentObject;
+    bool removeCurrentObject;
 
 public:
-    static double playerX, playerY, playerVX, playerVY;
+    double playerX, playerY, playerVX, playerVY;
 };

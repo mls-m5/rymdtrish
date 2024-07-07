@@ -2,12 +2,15 @@
 
 #include <cmath>
 
+class World;
+
 constexpr auto PI = M_PI;
 
 class Body {
 public:
     virtual ~Body() {}
-    Body(double x = 0,
+    Body(World &,
+         double x = 0,
          double y = 0,
          double angle = 0,
          double vx = 0,
@@ -69,7 +72,10 @@ public:
     double g() const;
     void g(double newG);
 
+    World &world() const;
+
 protected:
+    World *_world;
     // Position and angle
     // units is in ship lengths, angle is in radians
     double _x;

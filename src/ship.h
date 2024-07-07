@@ -19,13 +19,14 @@ public:
 class Ship : public Body {
 private:
 public:
-    Ship(double x,
+    Ship(World &world,
+         double x,
          double y,
          double angle = 0,
          double vx = 0,
          double vy = 0,
          double vangle = 0)
-        : Body(x, y, angle, vx, vy, vangle){};
+        : Body(world, x, y, angle, vx, vy, vangle){};
     void update(double dt) override;
     void draw() const override;
     void kill() override;

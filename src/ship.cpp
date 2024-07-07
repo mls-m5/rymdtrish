@@ -57,7 +57,7 @@ void Ship::angleimpulse(double va) {
 }
 
 void Ship::fire(int i) {
-    Projectile *p = World::create<Projectile>(
+    Projectile *p = world().create<Projectile>(
         _x, _y, _angle, -sin(_angle) * 30 + _vx, cos(_angle) * 30 + _vy, 0);
     p->setDuration(1);
     p->setOwner(this);
@@ -74,11 +74,11 @@ void Ship::kill() {
         double sx = sin(a) * amp;
         double sy = cos(a) * amp;
 
-        auto s = World::create<Spark>(_x, _y, sx, sy);
+        auto s = world().create<Spark>(_x, _y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
     }
 
-    World::create<Explosion>(_x, _y, 3., .5, .5, 1);
+    world().create<Explosion>(_x, _y, 3., .5, .5, 1);
 
     this->Body::kill();
 }
@@ -104,7 +104,8 @@ void Player::update(double dt) {
         _ship->fire(0);
     }
 
-    World::setPlayerInfo(_ship->x(), _ship->y(), _ship->vx(), _ship->vy());
+    _ship->world().setPlayerInfo(
+        _ship->x(), _ship->y(), _ship->vx(), _ship->vy());
 }
 
 void Player::postUpdate() {
@@ -113,8 +114,8 @@ void Player::postUpdate() {
 
 void AI::update(double t) {
     _ship->angle(_ship->angle() +
-                 getAngle(_ship->x() - World::playerX,
-                          _ship->y() - World::playerY,
+                 getAngle(_ship->x() - _ship->world().playerX,
+                          _ship->y() - _ship->world().playerY,
                           _ship->angle()) *
                      t +
                  ((rand() % 100) / 1000. - .05) / 2.);

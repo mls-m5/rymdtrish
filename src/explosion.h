@@ -4,7 +4,8 @@
 
 class Explosion : public Body {
 public:
-    Explosion(double x,
+    Explosion(World &world,
+              double x,
               double y,
               double size,
               double r = 1,

@@ -16,15 +16,15 @@ void Asteroid::kill() {
     const double killScale = 1 / 1.5;
 
     if (_size * killScale < minSize) {
-        World::create<Explosion>(_x, _y, .3);
+        world().create<Explosion>(_x, _y, .3);
     }
     else {
         auto sx = (rand() % 100) / 50. - 1.;
         auto sy = (rand() % 100) / 50. - 1.;
         // Asteroid *a1, *a2;
-        auto a1 = World::create<Asteroid>(_x, _y, _angle, sx, sy, _vangle);
+        auto a1 = world().create<Asteroid>(_x, _y, _angle, sx, sy, _vangle);
         a1->size(_size * killScale);
-        auto a2 = World::create<Asteroid>(_x, _y, _angle, -sx, -sy, -_vangle);
+        auto a2 = world().create<Asteroid>(_x, _y, _angle, -sx, -sy, -_vangle);
         a2->size(_size * killScale);
     }
 
@@ -34,7 +34,7 @@ void Asteroid::kill() {
         auto sx = sin(a) * amp;
         auto sy = cos(a) * amp;
 
-        auto s = World::create<Spark>(_x, _y, sx, sy);
+        auto s = world().create<Spark>(_x, _y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
     }
 

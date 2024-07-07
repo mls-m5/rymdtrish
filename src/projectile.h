@@ -5,13 +5,14 @@
 
 class Projectile : public Body {
 public:
-    Projectile(double x = 0,
+    Projectile(World &world,
+               double x = 0,
                double y = 0,
                double angle = 0,
                double vx = 0,
                double vy = 0,
                double vangle = 0)
-        : Body(x, y, angle, vx, vy, vangle) {}
+        : Body(world, x, y, angle, vx, vy, vangle) {}
     void draw() const override;
     void update(double dt) override;
 

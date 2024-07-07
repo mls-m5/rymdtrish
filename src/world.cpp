@@ -3,12 +3,6 @@
 #include "body.h"
 #include "ship.h"
 
-// Create the static variables
-list<Body *> World::objects;
-list<Body *>::iterator World::currentObject;
-bool World::removeCurrentObject;
-double World::playerX, World::playerY, World::playerVX, World::playerVY;
-
 void World::init() {
     create<Asteroid>(0, 0, 0, 1, 2, 2 * 2 * PI);
     create<Asteroid>(-2, 0, PI, 1, 2, 2 * PI);
@@ -24,10 +18,9 @@ void World::init() {
 }
 
 void World::terminate() {
-    list<Body *>::iterator it;
-    for (it = objects.begin(); it != objects.end(); ++it) {
-        delete (*it);
-        objects.erase(it);
+    for (auto &o : objects) {
+        delete o;
+        o = nullptr;
     }
 }
 

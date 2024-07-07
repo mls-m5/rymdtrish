@@ -1,9 +1,14 @@
 #include "explosion.h"
 #include "draw.h"
 
-Explosion::Explosion(
-    double nX, double nY, double nSize, double r, double g, double b)
-    : Body(nX, nY, 0) {
+Explosion::Explosion(World &world,
+                     double nX,
+                     double nY,
+                     double nSize,
+                     double r,
+                     double g,
+                     double b)
+    : Body(world, nX, nY, 0) {
     size(nSize);
     this->r(r);
     this->g(g);
