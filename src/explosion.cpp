@@ -17,5 +17,5 @@ void Explosion::update(double dt) {
 }
 
 void Explosion::draw() const {
-    Draw::drawAsteroid(x, y, angle, r, g, b, size);
+    Draw::drawAsteroid({x, y, angle, r, g, b, size});
 }

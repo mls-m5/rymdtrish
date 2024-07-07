@@ -2,17 +2,31 @@
 #define _draw_h_
 #include <GL/gl.h>
 #include <cmath>
-//#include <stdlib.h>
-#define pi 3.14159265
+constexpr double pi = 3.14159265;
 
 // En klass som används för utritning av diverse saker
 class Draw {
+public:
+    struct Args {
+        double x = 0;
+        double y = 0;
+        double a = 0;
+        double r = 1;
+        double g = 1;
+        double b = 1;
+        double scale = 1;
+    };
+
 private:
     // En funktion för att underlätta transformeringen innan utritningen
     inline static void transform(double x, double y, double a, double s) {
         glTranslated(x, y, 0);
         glScaled(s, s, s);
         glRotated(a * 180. / pi, 0, 0, 1);
+    }
+
+    inline static void transform(const Args &a) {
+        transform(a.x, a.y, a.a, a.scale);
     }
 
 public:
@@ -35,48 +49,35 @@ public:
         }
         glEnd();
 
-        //Återställer slump
+        // Återställer slump
         srand(rnd);
     }
 
-    // The parameters is the same for all draw functions
-    // therefore the marko PARA
-#define PARA                                                                   \
-    double x, double y, double a, double r = 1, double g = 1, double b = 1,    \
-                                         double scale = 1
-
     // Some functions for drawing different obsticles
-    static void drawAsteroid(PARA) {
+    static void drawAsteroid(Args a) {
         glPushMatrix();
-        transform(x, y, a, scale);
+        transform(a);
 
         glBegin(GL_TRIANGLE_FAN);
 
-        glColor3d(r, g, b);
-
-        // float ang;
+        glColor3d(a.r, a.g, a.b);
 
         for (int i = 0; i < 5; i++) {
-            a = float(i) * 2. * pi / 5.;
-            glVertex2d(sin(a), cos(a));
+            auto ang = float(i + a.a) * 2. * pi / 5.;
+            glVertex2d(sin(ang), cos(ang));
         }
-
-        // glVertex2d(0,-1);
-        // glVertex2d(1,0);
-        // glVertex2d(0,1);
-        // glVertex2d(-1,0);
 
         glEnd();
         glPopMatrix();
     }
 
-    static void drawShip(PARA) {
+    static void drawShip(Args a) {
         glPushMatrix();
-        transform(x, y, a, scale);
+        transform(a);
 
         glBegin(GL_TRIANGLE_FAN);
 
-        glColor3d(r, g, b);
+        glColor3d(a.r, a.g, a.b);
 
         glVertex2d(0, 1);
         glVertex2d(.5, -1);
@@ -86,13 +87,13 @@ public:
         glPopMatrix();
     }
 
-    static void drawProjectile(PARA) {
+    static void drawProjectile(Args a) {
         glPushMatrix();
-        transform(x, y, a, scale);
+        transform(a.x, a.y, a.a, a.scale);
 
         glBegin(GL_TRIANGLE_FAN);
 
-        glColor3d(r, g, b);
+        glColor3d(a.r, a.g, a.b);
 
         glVertex2d(0, .2);
         glVertex2d(.1, 0);
@@ -103,12 +104,12 @@ public:
         glPopMatrix();
     }
 
-    static void drawSpark(PARA) {
+    static void drawSpark(Args a) {
         glPushMatrix();
 
-        transform(x, y, a, scale);
+        transform(a);
 
-        glColor3d(r, g, b);
+        glColor3d(a.r, a.g, a.b);
         glPointSize(2.);
         glBegin(GL_POINTS);
         glVertex2d(0, 0);

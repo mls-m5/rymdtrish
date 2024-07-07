@@ -27,5 +27,5 @@ Spark::Spark(double x, double y, double vx, double vy) {
 // Draws the ship
 void Spark::draw() const {
     // Draw::drawShip(x,y,angle,1,0,1);
-    Draw::drawSpark(x, y, angle, r / angle, g / angle, b / angle);
+    Draw::drawSpark({x, y, angle, r / angle, g / angle, b / angle});
 }

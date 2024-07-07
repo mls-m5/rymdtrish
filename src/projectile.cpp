@@ -4,7 +4,7 @@
 #include "world.h"
 
 void Projectile::draw() const {
-    Draw::drawProjectile(x, y, angle);
+    Draw::drawProjectile({x, y, angle});
 }
 
 void Projectile::update(double dt) {

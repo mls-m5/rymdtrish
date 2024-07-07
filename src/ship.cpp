@@ -69,7 +69,7 @@ void Ship::update(double dt) {
 
 // Draws the ship
 void Ship::draw() const {
-    Draw::drawShip(x, y, angle, 1, 0, 1);
+    Draw::drawShip({x, y, angle, 1, 0, 1});
 }
 
 // Accelerate the ship relative to the ships location
@@ -103,8 +103,6 @@ void Ship::AI(double dt) {
     }
 
     accelerate(0, dt * 4.);
-    // vx / (1. + dt * 3.);
-    // vy / (1. + dt * 3.);
 }
 
 void Ship::setPlayer(bool player) {

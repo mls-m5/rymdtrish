@@ -6,7 +6,7 @@
 #include <cmath>
 
 void Asteroid::draw() const {
-    Draw::drawAsteroid(x, y, angle, r, g, b, size);
+    Draw::drawAsteroid({x, y, angle, r, g, b, size});
 }
 
 void Asteroid::kill() {
