@@ -1,93 +1,94 @@
-#include <cstdlib>
-#include <GL/glut.h>
-#include "input.h"
 #include "draw.h"
+#include "input.h"
 #include "world.h"
+#include <GL/glut.h>
+#include <cstdlib>
 
 #define TIMER_DELAY 20.
 
 //////
 World *world;
 
-void glutDisplay(){
-  //Draw::drawAsteroid(0,0,0);  //This is just a test for rendering
-  glClear(GL_COLOR_BUFFER_BIT);
-  glPushMatrix();
-  glTranslated(0,0,-70);
-  Draw::drawStars();
-  world->draw();
-  glPopMatrix();
-  glutSwapBuffers();
+void glutDisplay() {
+    // Draw::drawAsteroid(0,0,0);  //This is just a test for rendering
+    glClear(GL_COLOR_BUFFER_BIT);
+    glPushMatrix();
+    glTranslated(0, 0, -70);
+    Draw::drawStars();
+    world->draw();
+    glPopMatrix();
+    glutSwapBuffers();
 }
 
-void perspectiveTransformations(){
-  glLoadIdentity();
-  gluPerspective(50,1, 1, 100);
-  
+void perspectiveTransformations() {
+    glLoadIdentity();
+    gluPerspective(50, 1, 1, 100);
 }
 
-void glutKeyboard(unsigned char key, int x, int y){
-  //Ställer in värdet på den nyss nedtryckta tangenten
-  InputControl::setKey(key, 1);
+void glutKeyboard(unsigned char key, int x, int y) {
+    // Ställer in värdet på den nyss nedtryckta tangenten
+    InputControl::setKey(key, 1);
 }
 
-void glutKeyboardUp(unsigned char key, int x, int y){
-  //Samma som ovan fast tvärt om
-  InputControl::setKey(key, 0);
+void glutKeyboardUp(unsigned char key, int x, int y) {
+    // Samma som ovan fast tvärt om
+    InputControl::setKey(key, 0);
 }
 
-//Functions for special keypress
-void glutSpecial(int key, int x, int y){
-  InputControl::setKey(key, 1);
+// Functions for special keypress
+void glutSpecial(int key, int x, int y) {
+    InputControl::setKey(key, 1);
+
+    InputControl::setKey(key, 2);
 }
 
-void glutSpecialUp(int key, int x, int y){
-  InputControl::setKey(key, 0);
+void glutSpecialUp(int key, int x, int y) {
+    InputControl::setKey(key, 0);
 }
 
-//gluts timer function
-void glutTimer(int i){
-  glutTimerFunc(TIMER_DELAY, glutTimer, 0);
-  perspectiveTransformations();
-  world->update(TIMER_DELAY / 1000.);
+// gluts timer function
+void glutTimer(int i) {
+    glutTimerFunc(TIMER_DELAY, glutTimer, 0);
+    perspectiveTransformations();
+    world->update(TIMER_DELAY / 1000.);
 
-  glutPostRedisplay();
+    glutPostRedisplay();
 }
 
-void terminate(){
-  //Det verkar som att det inte bara är onödigt att tömma världen, utan att det till och med krashar programmet
-  //World::terminate();
+void terminate() {
+    // Det verkar som att det inte bara är onödigt att tömma världen, utan att
+    // det till och med krashar programmet World::terminate();
 }
 
-int main(int argc, char **args ){
-  //Initierar gl och glut  
+int main(int argc, char **args) {
+    // Initierar gl och glut
 
-  glutInit(&argc, args);
-  
-  glutInitDisplayMode(GLUT_DEPTH*0 | GLUT_DOUBLE | GLUT_RGBA);
-  glutInitWindowPosition(100,100);
-  glutInitWindowSize(800, 640);
-  glutCreateWindow("Rymdtrish");
+    glutInit(&argc, args);
 
-  //Callback functions
-  glutDisplayFunc(glutDisplay);
-  glutKeyboardFunc(glutKeyboard);
-  glutKeyboardUpFunc(glutKeyboardUp);
-  glutSpecialFunc(glutSpecial);
-  glutSpecialUpFunc(glutSpecialUp);
-  glutTimerFunc(TIMER_DELAY, glutTimer, 0);  
+    glutInitDisplayMode(GLUT_DEPTH * 0 | GLUT_DOUBLE | GLUT_RGBA);
+    glutInitWindowPosition(100, 100);
+    glutInitWindowSize(800, 640);
+    glutCreateWindow("Rymdtrish");
 
-  //Återställer knappar
-  InputControl::resetKeys();
+    // Callback functions
+    glutDisplayFunc(glutDisplay);
+    glutKeyboardFunc(glutKeyboard);
+    glutKeyboardUpFunc(glutKeyboardUp);
+    glutSpecialFunc(glutSpecial);
+    glutSpecialUpFunc(glutSpecialUp);
+    glutTimerFunc(TIMER_DELAY, glutTimer, 0);
 
-  //Skapar världen
-  //world = new World;
+    //Återställer knappar
+    InputControl::resetKeys();
 
-  World::init();
+    // Skapar världen
+    // world = new World;
 
-  //Ställer in vad som ska hända när programmet stängs av
-  atexit(terminate);
+    World::init();
 
-  //Startar huvudloopen
-  glutMainLoop();
+    // Ställer in vad som ska hända när programmet stängs av
+    atexit(terminate);
+
+    // Startar huvudloopen
+    glutMainLoop();
 }
