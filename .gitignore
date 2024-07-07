@@ -3,3 +3,14 @@
 *.pcm
 rymdtrish
 
+compile_commands.json
+
+.qtc_clangd
+build
+*.cflags
+*.config
+*.creator
+*.creator.user
+*.cxxflags
+*.files
+*.includes
