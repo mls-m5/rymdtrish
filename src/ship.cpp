@@ -24,80 +24,47 @@ double getAngle(double x, double y, double a) {
 }
 
 void Ship::update(double dt) {
-    const double acceleration = 10.;
-    const double angleAcceleration = .5;
 
-    // Handeling input from the keyboard
+    _controller->update(dt);
 
-    if (isPlayer) {
-        if (Input::key(KEY_UP)) {
-            accelerate(0, dt * acceleration);
-        }
-        if (Input::key(KEY_DOWN)) {
-            accelerate(0, -dt * acceleration);
-        }
-        if (Input::key(KEY_LEFT)) {
-            vangle += dt * angleAcceleration;
-        }
-        if (Input::key(KEY_RIGHT)) {
-            vangle -= dt * angleAcceleration;
-        }
-        if (Input::key(' ')) {
-            fire(0);
-        }
-
-        World::setPlayerInfo(x, y, vx, vy);
-    }
-    else {
-        AI(dt);
-    }
-
-    x += vx * dt;
-    y += vy * dt;
-    angle += vangle;
+    _x += _vx * dt;
+    _y += _vy * dt;
+    _angle += _vangle;
 
     // adding som friction to the angularvolocity
-    vangle /= (1. + dt * 5);
+    _vangle /= (1. + dt * 5);
 
-    if (isPlayer)
-        Draw::transformView(x, y, angle);
+    _controller->postUpdate();
 }
 
 // Draws the ship
 void Ship::draw() const {
-    Draw::drawShip({x, y, angle, 1, 0, 1});
+    Draw::drawShip({_x, _y, _angle, 1, 0, 1});
 }
 
 // Accelerate the ship relative to the ships location
 void Ship::accelerate(double ax, double ay) {
-    auto sx = sin(angle);
-    auto sy = cos(angle);
+    auto sx = sin(_angle);
+    auto sy = cos(_angle);
 
     // Apply the acceleration in the proper direction
-    vx += sy * ax - sx * ay;
-    vy += sy * ay + sx * ax;
+    _vx += sy * ax - sx * ay;
+    _vy += sy * ay + sx * ax;
+}
+
+void Ship::angleimpulse(double va) {
+    _vangle += va;
 }
 
 void Ship::fire(int i) {
     Projectile *p = World::create<Projectile>(
-        x, y, angle, -sin(angle) * 30 + vx, cos(angle) * 30 + vy, 0);
+        _x, _y, _angle, -sin(_angle) * 30 + _vx, cos(_angle) * 30 + _vy, 0);
     p->setDuration(1);
     p->setOwner(this);
 }
 
-void Ship::AI(double dt) {
-    angle += getAngle(x - World::playerX, y - World::playerY, angle) * dt +
-             ((rand() % 100) / 1000. - .05) / 2.;
-
-    if (rand() % 100 > 90) {
-        fire(0);
-    }
-
-    accelerate(0, dt * 4.);
-}
-
-void Ship::setPlayer(bool player) {
-    isPlayer = player;
+void Ship::setController(std::unique_ptr<Controller> controller) {
+    _controller = std::move(controller);
 }
 
 void Ship::kill() {
@@ -107,11 +74,54 @@ void Ship::kill() {
         double sx = sin(a) * amp;
         double sy = cos(a) * amp;
 
-        auto s = World::create<Spark>(x, y, sx, sy);
+        auto s = World::create<Spark>(_x, _y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
     }
 
-    World::create<Explosion>(x, y, 3., .5, .5, 1);
+    World::create<Explosion>(_x, _y, 3., .5, .5, 1);
 
     this->Body::kill();
+}
+
+void Player::update(double dt) {
+    const double acceleration = 10.;
+    const double angleAcceleration = .5;
+
+    // Handeling input from the keyboard
+    if (Input::key(KEY_UP)) {
+        _ship->accelerate(0, dt * acceleration);
+    }
+    if (Input::key(KEY_DOWN)) {
+        _ship->accelerate(0, -dt * acceleration);
+    }
+    if (Input::key(KEY_LEFT)) {
+        _ship->angleimpulse(dt * angleAcceleration);
+    }
+    if (Input::key(KEY_RIGHT)) {
+        _ship->angleimpulse(-dt * angleAcceleration);
+    }
+    if (Input::key(' ')) {
+        _ship->fire(0);
+    }
+
+    World::setPlayerInfo(_ship->x(), _ship->y(), _ship->vx(), _ship->vy());
+}
+
+void Player::postUpdate() {
+    Draw::transformView(_ship->x(), _ship->y(), _ship->angle());
+}
+
+void AI::update(double t) {
+    _ship->angle(_ship->angle() +
+                 getAngle(_ship->x() - World::playerX,
+                          _ship->y() - World::playerY,
+                          _ship->angle()) *
+                     t +
+                 ((rand() % 100) / 1000. - .05) / 2.);
+
+    if (rand() % 100 > 90) {
+        _ship->fire(0);
+    }
+
+    _ship->accelerate(0, t * 4.);
 }

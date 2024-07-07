@@ -4,19 +4,19 @@
 Explosion::Explosion(
     double nX, double nY, double nSize, double r, double g, double b)
     : Body(nX, nY, 0) {
-    size = nSize;
-    this->r = r;
-    this->g = g;
-    this->b = b;
+    size(nSize);
+    this->r(r);
+    this->g(g);
+    this->b(b);
 }
 
 void Explosion::update(double dt) {
-    size -= dt;
-    if (size < .01) {
+    _size -= dt;
+    if (_size < .01) {
         this->Body::kill();
     }
 }
 
 void Explosion::draw() const {
-    Draw::drawAsteroid({x, y, angle, r, g, b, size});
+    Draw::drawAsteroid({_x, _y, _angle, _r, _g, _b, _size});
 }

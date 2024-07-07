@@ -6,7 +6,7 @@
 #include <cmath>
 
 void Asteroid::draw() const {
-    Draw::drawAsteroid({x, y, angle, r, g, b, size});
+    Draw::drawAsteroid({_x, _y, _angle, _r, _g, _b, _size});
 }
 
 void Asteroid::kill() {
@@ -15,17 +15,17 @@ void Asteroid::kill() {
     const double minSize = .3;
     const double killScale = 1 / 1.5;
 
-    if (size * killScale < minSize) {
-        World::create<Explosion>(x, y, .3);
+    if (_size * killScale < minSize) {
+        World::create<Explosion>(_x, _y, .3);
     }
     else {
         auto sx = (rand() % 100) / 50. - 1.;
         auto sy = (rand() % 100) / 50. - 1.;
         // Asteroid *a1, *a2;
-        auto a1 = World::create<Asteroid>(x, y, angle, sx, sy, vangle);
-        a1->setSize(size * killScale);
-        auto a2 = World::create<Asteroid>(x, y, angle, -sx, -sy, -vangle);
-        a2->setSize(size * killScale);
+        auto a1 = World::create<Asteroid>(_x, _y, _angle, sx, sy, _vangle);
+        a1->size(_size * killScale);
+        auto a2 = World::create<Asteroid>(_x, _y, _angle, -sx, -sy, -_vangle);
+        a2->size(_size * killScale);
     }
 
     for (int i = 0; i < 100; i++) {
@@ -34,7 +34,7 @@ void Asteroid::kill() {
         auto sx = sin(a) * amp;
         auto sy = cos(a) * amp;
 
-        auto s = World::create<Spark>(x, y, sx, sy);
+        auto s = World::create<Spark>(_x, _y, sx, sy);
         s->setDuration(1 + (rand() % 100) / 100.);
     }
 

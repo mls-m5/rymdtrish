@@ -15,17 +15,12 @@ void World::init() {
 
     {
         auto s = create<Ship>(0, 0, 0);
-        s->setPlayer();
-        objects.push_back(s);
+        s->createController<Player>();
     }
 
-    {
-        auto s = create<Ship>(1, 2, 0);
-        s->setPlayer();
-    }
-    create<Ship>(10, 1, 1);
-    create<Ship>(1, 1, 1);
-    create<Ship>(-10, 20, 1);
+    create<Ship>(10, 1, 1)->createController<AI>();
+    create<Ship>(1, 1, 1)->createController<AI>();
+    create<Ship>(-10, 20, 1)->createController<AI>();
 }
 
 void World::terminate() {

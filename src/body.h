@@ -30,28 +30,59 @@ public:
     void setHitPoints(double hp);
 
     void setColor(double r, double g, double b) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
+        this->_r = r;
+        this->_g = g;
+        this->_b = b;
     }
-    void setSize(double size) {
-        this->size = size;
+
+    void size(double size) {
+        _size = size;
     }
+
+    double size() const;
+
+    double x() const;
+    void x(double newX);
+
+    double y() const;
+    void y(double newY);
+
+    double angle() const;
+    void angle(double newAngle);
+
+    double vx() const;
+
+    void vx(double newVx);
+
+    double vy() const;
+    void vy(double newVy);
+
+    double vangle() const;
+    void vangle(double newVangle);
+
+    double r() const;
+    void r(double newR);
+
+    double b() const;
+    void b(double newB);
+
+    double g() const;
+    void g(double newG);
 
 protected:
     // Position and angle
     // units is in ship lengths, angle is in radians
-    double x;
-    double y;
-    double angle;
+    double _x;
+    double _y;
+    double _angle;
     // Velocity
-    double vx;
-    double vy;
-    double vangle;
+    double _vx;
+    double _vy;
+    double _vangle;
     // Size
-    double size;
+    double _size;
     // Color
-    double r, b, g;
+    double _r, _b, _g;
 
     // duration = the time before the object by itself calls kill()
     // if set to -1 the duration is infinite

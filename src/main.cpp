@@ -7,7 +7,6 @@
 constexpr auto timerDelay = 20.;
 
 void glutDisplay() {
-    // Draw::drawAsteroid(0,0,0);  //This is just a test for rendering
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
     glTranslated(0, 0, -70);

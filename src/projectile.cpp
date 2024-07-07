@@ -4,19 +4,17 @@
 #include "world.h"
 
 void Projectile::draw() const {
-    Draw::drawProjectile({x, y, angle});
+    Draw::drawProjectile({_x, _y, _angle});
 }
 
 void Projectile::update(double dt) {
     this->Body::update(dt);
 
-    auto collision = World::inside(x, y, owner);
+    auto collision = World::inside(x(), y(), owner);
     if (collision) {
-        // Domages the found object
         collision->hit(10);
-        // Destroy the own object
         kill();
 
-        World::create<Explosion>(x, y, .3, .5, .5, 1);
+        World::create<Explosion>(_x, _y, .3, .5, .5, 1);
     }
 }
