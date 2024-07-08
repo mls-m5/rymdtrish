@@ -5,6 +5,7 @@
 #include "projectile.h"
 #include "spark.h"
 #include "world.h"
+#include <SDL2/SDL.h>
 #include <cmath>
 
 // A helper function that get the difference of a angle
@@ -88,16 +89,16 @@ void Player::update(double dt) {
     const double angleAcceleration = .5;
 
     // Handeling input from the keyboard
-    if (Input::key(KEY_UP)) {
+    if (Input::key(SDLK_UP)) {
         _ship->accelerate(0, dt * acceleration);
     }
-    if (Input::key(KEY_DOWN)) {
+    if (Input::key(SDLK_DOWN)) {
         _ship->accelerate(0, -dt * acceleration);
     }
-    if (Input::key(KEY_LEFT)) {
+    if (Input::key(SDLK_LEFT)) {
         _ship->angleimpulse(dt * angleAcceleration);
     }
-    if (Input::key(KEY_RIGHT)) {
+    if (Input::key(SDLK_RIGHT)) {
         _ship->angleimpulse(-dt * angleAcceleration);
     }
     if (Input::key(' ')) {

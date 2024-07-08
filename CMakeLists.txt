@@ -20,6 +20,5 @@ target_link_libraries(
     rymdtrish
     -lSDL2
     -lGL
-    -lglut
     -lGLU
 )

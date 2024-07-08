@@ -1,23 +1,21 @@
 #include "draw.h"
 #include "input.h"
 #include "world.h"
-#include <GL/glut.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include <cstdlib>
+#include <iostream>
 
-constexpr auto timerDelay = 20.;
+constexpr auto timerDelay = 20;
 
-namespace {
-World *world = nullptr;
-}
-
-void glutDisplay() {
+void display(World &world, SDL_Window *window) {
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
     glTranslated(0, 0, -70);
     Draw::drawStars();
-    world->draw();
+    world.draw();
     glPopMatrix();
-    glutSwapBuffers();
+    SDL_GL_SwapWindow(window);
 }
 
 void perspectiveTransformations() {
@@ -25,62 +23,71 @@ void perspectiveTransformations() {
     gluPerspective(50, 1, 1, 100);
 }
 
-void glutKeyboard(unsigned char key, int x, int y) {
-    // Ställer in värdet på den nyss nedtryckta tangenten
+void handleKeyDown(SDL_Keycode key) {
     InputControl::setKey(key, 1);
 }
 
-void glutKeyboardUp(unsigned char key, int x, int y) {
-    // Samma som ovan fast tvärt om
+void handleKeyUp(SDL_Keycode key) {
     InputControl::setKey(key, 0);
-}
-
-// Functions for special keypress
-void glutSpecial(int key, int x, int y) {
-    InputControl::setKey(key, 1);
-
-    InputControl::setKey(key, 2);
-}
-
-void glutSpecialUp(int key, int x, int y) {
-    InputControl::setKey(key, 0);
-}
-
-// gluts timer function
-void glutTimer(int i) {
-    glutTimerFunc(timerDelay, glutTimer, 0);
-    perspectiveTransformations();
-    world->update(timerDelay / 1000.);
-
-    glutPostRedisplay();
 }
 
 int main(int argc, char **args) {
-    // Initierar gl och glut
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+        std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
+        return 1;
+    }
 
-    glutInit(&argc, args);
+    SDL_Window *window =
+        SDL_CreateWindow("Rymdtrish", 100, 100, 800, 640, SDL_WINDOW_OPENGL);
+    if (window == nullptr) {
+        std::cerr << "SDL CreateWindow Error: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
 
-    glutInitDisplayMode(GLUT_DEPTH * 0 | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(100, 100);
-    glutInitWindowSize(800, 640);
-    glutCreateWindow("Rymdtrish");
+    SDL_GLContext glContext = SDL_GL_CreateContext(window);
+    if (glContext == nullptr) {
+        std::cerr << "SDL CreateContext Error: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
 
-    // Callback functions
-    glutDisplayFunc(glutDisplay);
-    glutKeyboardFunc(glutKeyboard);
-    glutKeyboardUpFunc(glutKeyboardUp);
-    glutSpecialFunc(glutSpecial);
-    glutSpecialUpFunc(glutSpecialUp);
-    glutTimerFunc(timerDelay, glutTimer, 0);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetSwapInterval(1);
 
-    // Återställer knappar
     InputControl::resetKeys();
 
     auto world = World{};
-    ::world = &world;
 
     world.init();
 
-    // Startar huvudloopen
-    glutMainLoop();
+    bool running = true;
+    SDL_Event event;
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+            case SDL_QUIT:
+                running = false;
+                break;
+            case SDL_KEYDOWN:
+                handleKeyDown(event.key.keysym.sym);
+                break;
+            case SDL_KEYUP:
+                handleKeyUp(event.key.keysym.sym);
+                break;
+            }
+        }
+
+        perspectiveTransformations();
+        world.update(timerDelay / 1000.0);
+        display(world, window);
+        SDL_Delay(timerDelay);
+    }
+
+    SDL_GL_DeleteContext(glContext);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
 }
