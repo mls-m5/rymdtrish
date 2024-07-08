@@ -38,8 +38,7 @@ public:
     static void drawStars() {
         // Always seeds the random generator with the same number so the stars
         // stay in the same place
-        long rnd;
-        rnd = rand();
+        auto rnd = rand();
         srand(20);
         glPointSize(1);
         glBegin(GL_POINTS);
@@ -49,7 +48,6 @@ public:
         }
         glEnd();
 
-        // Återställer slump
         srand(rnd);
     }
 

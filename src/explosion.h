@@ -12,10 +12,10 @@ public:
               double g = 1,
               double b = 1);
 
-    void update(double dt);
-    void draw() const;
+    void update(double dt) override;
+    void draw() const override;
 
-    bool inside(double x, double y) const {
+    bool inside(double x, double y) const override {
         return 0;
     };
 };

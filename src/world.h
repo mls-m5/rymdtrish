@@ -33,5 +33,8 @@ private:
     bool removeCurrentObject;
 
 public:
-    double playerX, playerY, playerVX, playerVY;
+    double playerX = 0;
+    double playerY = 0;
+    double playerVX = 0;
+    double playerVY = 0;
 };
